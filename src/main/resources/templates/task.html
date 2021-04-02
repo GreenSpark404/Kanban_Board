@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <title>Kanban Board - Task</title>
+</head>
+
+<head th:insert="parts/head.html :: head" />
+
+<body>
+  <header th:insert="parts/navbar.html :: navbar" />
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-md-9">
+        <div id="task-manage-bar">
+          <ul class="nav nav-pills mb-3">
+            <th:block th:if="${task.status.name} == OPEN">
+              <li class="nav-item me-3">
+                <form method="POST" th:action="@{/changeTaskStatus(taskId=${task.id}, taskStatus=IN_PROGRESS)}">
+                  <button class="btn btn-outline-primary" type="submit"
+                    th:text="#{task.taskAction.changeStatus.startProgress}" />
+                </form>
+              </li>
+            </th:block>
+            <th:block th:if="(${task.status.name} == IN_PROGRESS) or (${task.status.name} == DONE)">
+              <li class="nav-item me-3">
+                <form method="POST" th:action="@{/changeTaskStatus(taskId=${task.id}, taskStatus=OPEN)}">
+                  <button class="btn btn-outline-primary" type="submit" th:text="${task.status.name} == DONE
+                    ? #{task.taskAction.changeStatus.reopenTask}
+                    : #{task.taskAction.changeStatus.stopProgress}" />
+                </form>
+              </li>
+            </th:block>
+            <th:block th:if="${task.status.name} != DONE">
+              <li class="nav-item me-3">
+                <form method="POST" th:action="@{/changeTaskStatus(taskId=${task.id}, taskStatus=DONE)}">
+                  <button class="btn btn-success" type="submit" th:text="#{task.taskAction.changeStatus.resolveTask}" />
+                </form>
+              </li>
+            </th:block>
+            <th:block th:if="${canEdit}">
+              <li class="nav-item me-3">
+                <a class="btn btn-secondary" th:text="#{common.action.edit}" th:href="@{/editTask/{id}(id=${task.id})}"/>
+              </li>
+            </th:block>
+          </ul>
+        </div>
+        <div class="mb-3">
+        </div>
+        <div class="mb-3">
+          <h2 id="title" class="mb-1">
+            <span th:text="${task.title}" th:remove="tag" />
+            <span class="badge bg-info text-dark ms-3" th:utext="#{task.taskStatus. + ${task.status}}" />
+          </h2>
+        </div>
+        <div class="mb-3 me-5">
+          <p id="description" class="mb-1" th:text="${task.description}" />
+        </div>
+      </div>
+      <div class="col-md-3 align-self-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>
+                <div class="mb-3">
+                  <small class="text-muted" th:text="#{task.label.assignee}" />
+                  <p id="assignee" class="mb-1" th:text="${task.assignee.firstName} and ${task.assignee.lastName} 
+                ? |${task.assignee.firstName} ${task.assignee.lastName} (${task.assignee.login})| 
+                : ${task.assignee.login}" />
+                </div>
+              </li>
+              <li>
+                <div class="mb-3">
+                  <small class="text-muted" th:text="#{task.label.author}" />
+                  <p id="author" class="mb-1" th:text="${task.author.firstName} and ${task.author.lastName} 
+                ? |${task.author.firstName} ${task.author.lastName} (${task.author.login})| 
+                : ${task.author.login}" />
+                </div>
+              </li>
+              <li>
+                <div class="mb-3">
+                  <small class="text-muted" th:text="#{task.label.created}" />
+                  <p id="created" class="mb-1" th:text="${#temporals.format(task.creationDate, 'dd.MM.yyyy HH:mm')}" />
+                </div>
+              </li>
+              <li>
+                <div class="mb-3">
+                  <small class="text-muted" th:text="#{task.label.modified}" />
+                  <p id="lastModificationDate" class="mb-1"
+                    th:text="${#temporals.format(task.lastModificationDate, 'dd.MM.yyyy HH:mm')}" />
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

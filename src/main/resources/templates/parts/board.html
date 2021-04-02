@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<div class="container-fluid p-4 board" th:fragment="board-cells-container">
+    <div class="row row-cols-3 boardHeader">
+        <div class="col boardColumn todo-header" th:text="#{board.cellsContainer.todo}"></div>
+        <div class="col boardColumn inProgress-header" th:text="#{board.cellsContainer.inProgress}"></div>
+        <div class="col boardColumn done-header" th:text="#{board.cellsContainer.done}"></div>
+    </div>
+    <div class="row row-cols-3 boardTaskList">
+        <div class="col boardColumn p-3" th:with="isNotEmpty = ${not #lists.isEmpty(todoTasks)}">
+            <th:block th:if="${isNotEmpty}" th:each="task : ${todoTasks}">
+                <div th:insert="parts/taskCard.html :: task-card" />
+            </th:block>
+            <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{board.taskList.emptyTaskList}" />
+        </div>
+        <div class="col boardColumn p-3" th:with="isNotEmpty = ${not #lists.isEmpty(inProgressTasks)}">
+            <th:block th:if="${isNotEmpty}" th:each="task : ${inProgressTasks}">
+                <div th:insert="parts/taskCard.html :: task-card" />
+            </th:block>
+            <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{board.taskList.emptyTaskList}" />
+        </div>
+        <div class="col boardColumn p-3" th:with="isNotEmpty = ${not #lists.isEmpty(doneTasks)}">
+            <th:block th:if="${isNotEmpty}" th:each="task : ${doneTasks}">
+                <div th:insert="parts/taskCard.html :: task-card" />
+            </th:block>
+            <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{board.taskList.emptyTaskList}" />
+        </div>
+    </div>
+</div>
+
+</html>

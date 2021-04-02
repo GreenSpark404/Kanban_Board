@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Kanban Board - Registration page</title>
+</head>
+
+<head th:insert="parts/head.html :: head" />
+
+<body>
+
+    <div class="mx-auto" style="width: 500px; margin-top: 100px;">
+        <form th:action="@{/registration}" th:object="${registrationForm}" method="post">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('login')} ? is-invalid"
+                    th:field="*{login}" placeholder="Login">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('login')}">
+                    <p th:errors="*{login}"></p>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control"
+                    th:classappend="${#fields.hasErrors('password')} ? is-invalid" th:field="*{password}"
+                    placeholder="Password">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
+                    <p th:errors="*{password}"></p>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control"
+                    th:classappend="${#fields.hasErrors('passwordConfirm')} ? is-invalid" th:field="*{passwordConfirm}"
+                    placeholder="Password confirmation">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordConfirm')}">
+                    <p th:errors="*{passwordConfirm}"></p>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email')} ? is-invalid"
+                    th:field="*{email}" placeholder="name@example.com">
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
+                    <p th:errors="*{email}"></p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary" th:text="#{registration.action.register}" />
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

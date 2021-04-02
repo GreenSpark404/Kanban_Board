@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Kanban Board - User Editor</title>
+</head>
+
+<head th:insert="parts/head.html :: head" />
+
+<body>
+    <header th:insert="parts/navbar.html :: navbar" />
+    <div class="container my-4">
+        <div class="alert alert-info" th:if="${param.success}" th:text="#{common.action.savedSuccessfully}" />
+        <div class="row">
+            <form th:action="@{/editUser(userLogin=${userLogin})}" th:object="${userForm}" method="post">
+                <div class="mb-3 w-50" th:if="${canChangeLogin}">
+                    <label for="login" class="form-label" th:text="#{user.label.login}" />
+                    <input type="text" id="login" class="form-control" th:field="*{login}"
+                           th:classappend="${#fields.hasErrors('login')} ? is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('login')}">
+                        <p th:errors="*{login}"></p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="localeList" class="form-label" th:text="#{user.label.locale}" />
+                    <select class="form-select" id="localeList" th:field="*{userLocale}" style="width: 70px;">
+                        <option th:each="locale : ${availableLocales}" th:value="${locale}"
+                                th:selected="*{userLocale}" th:text="${locale}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="firstName" class="form-label" th:text="#{user.label.firstName}" />
+                    <input type="text" id="firstName" class="form-control" th:field="*{firstName}"
+                        th:classappend="${#fields.hasErrors('firstName')} ? is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}">
+                        <p th:errors="*{firstName}"></p>
+                    </div>
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="lastName" class="form-label" th:text="#{user.label.lastName}" />
+                    <input type="text" id="lastName" class="form-control" th:field="*{lastName}"
+                        th:classappend="${#fields.hasErrors('lastName')} ? is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}">
+                        <p th:errors="*{lastName}"></p>
+                    </div>
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="email" class="form-label" th:text="#{user.label.email}" />
+                    <input type="text" id="email" class="form-control" th:field="*{email}"
+                        th:placeholder="*{emailPlaceholder}"
+                        th:classappend="${#fields.hasErrors('email')} ? is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
+                        <p th:errors="*{email}"></p>
+                    </div>
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="password" class="form-label" th:text="#{user.label.password}" />
+                    <input type="password" id="password" class="form-control" th:field="*{password}"
+                        th:classappend="${#fields.hasErrors('password')} ? is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
+                        <p th:errors="*{password}"></p>
+                    </div>
+                </div>
+                <div class="mb-3 w-50">
+                    <label for="passwordConfirm" class="form-label" th:text="#{user.label.passwordConfirm}" />
+                    <input type="password" id="passwordConfirm" class="form-control" th:field="*{passwordConfirm}"
+                        th:classappend="${#fields.hasErrors('passwordConfirm')} ? is-invalid">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passwordConfirm')}">
+                        <p th:errors="*{passwordConfirm}"></p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary" th:text="#{common.action.save}" />
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

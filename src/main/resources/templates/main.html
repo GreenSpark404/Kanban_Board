@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Kanban Board</title>
+</head>
+
+<head th:insert="parts/head.html :: head" />
+
+<body style="background-color: #f5f5f5">
+    <header th:insert="parts/navbar.html :: navbar" />
+    <div id="board" th:insert="parts/board.html :: board-cells-container" />
+</body>
+
+</html>

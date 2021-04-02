@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<div class="list-group" id="task-card" th:fragment="task-card">
+    <a class="mb-3 list-group-item list-group-item-action" th:href="@{/getTask/{id}(id=${task.id})}" />
+    <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1" th:text="${task.title}" />
+        <small class="text-muted"
+            th:text="${T(org.greenspark404.kanbanboard.util.TaskUtil).getLastModificationTimeText(task.lastModificationDate)}" />
+    </div>
+    <p class="mb-1" th:text="${task.description}" />
+    <small class="text-muted" th:text="${task.author?.login}" />
+    </a>
+</div>
+
+</html>

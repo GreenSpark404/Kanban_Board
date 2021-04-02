@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Kanban Board</title>
+</head>
+
+<head th:insert="parts/head.html :: head" />
+
+<body>
+<header th:insert="parts/navbar.html :: navbar" />
+<div th:with="isNotEmpty = ${not #lists.isEmpty(tasks)}">
+    <th:block th:if="${isNotEmpty}" th:each="task : ${tasks}">
+        <ul class="list-group">
+            <li class="list-group-item" th:insert="parts/taskCard.html :: task-card"/>
+        </ul>
+    </th:block>
+    <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{common.action.notFound}" />
+</div>
+</body>
+
+</html>
