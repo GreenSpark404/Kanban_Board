@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 <div th:fragment="navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light-md" style="background-color:#e3f2fd;">
@@ -13,11 +13,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-itemme-3">
+                    <li class="nav-item me-3">
                         <a role="button" class="btn btn-primary" th:href="@{/createTask}"
                             th:text="#{navbar.navitem.createTaskButton}" />
                     </li>
-                <li class="nav-item me-3" sec:authorize="hasAuthority('ADMIN')">
+                    <li class="nav-item me-3" sec:authorize="hasAuthority('ADMIN')">
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
                                     th:text="#{navbar.navitem.adminMenu}"></button>
@@ -29,11 +29,13 @@
                         </div>
                     </li>
                 </ul>
-                <form class="d-flex" th:action="@{/searchTasks}" method="post" />
-                <div class="input-group me-3">
-                    <input class="form-control" type="text" th:name="pattern" th:placeholder="#{common.action.search}">
-                    <button class="btn btn btn-primary" type="submit" th:text="#{common.action.search}" />
-                </div></form>
+                <form class="d-flex" th:action="@{/searchTasks}" method="post">
+                    <div class="input-group me-3">
+                        <input class="form-control" type="text" th:name="pattern"
+                            th:placeholder="#{common.action.search}">
+                        <button class="btn btn btn-primary" type="submit" th:text="#{common.action.search}" />
+                    </div>
+                </form>
                 <button type="button" class="btn btn-outline-success dropdown-toggle" id="userMenuButton"
                     data-bs-toggle="dropdown" th:text="${#httpServletRequest.remoteUser}" />
                 <div class="dropdown-menu dropdown-menu-end">

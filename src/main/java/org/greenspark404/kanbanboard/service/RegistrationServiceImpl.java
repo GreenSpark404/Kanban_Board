@@ -2,6 +2,7 @@ package org.greenspark404.kanbanboard.service;
 
 import org.greenspark404.kanbanboard.mvc.RegistrationFormData;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.cache.Cache;
 import javax.cache.Caching;
@@ -10,6 +11,7 @@ import javax.cache.expiry.CreatedExpiryPolicy;
 import javax.cache.expiry.Duration;
 import java.util.UUID;
 
+@Service
 public class RegistrationServiceImpl implements RegistrationService {
 
     private static final String MAIL_SUBJECT_KEY =

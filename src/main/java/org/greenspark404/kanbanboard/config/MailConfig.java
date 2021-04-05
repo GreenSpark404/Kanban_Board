@@ -1,14 +1,10 @@
 package org.greenspark404.kanbanboard.config;
 
-import org.greenspark404.kanbanboard.service.MailService;
-import org.greenspark404.kanbanboard.service.MailServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import java.util.Properties;
 
 @Configuration
 public class MailConfig {
@@ -38,11 +34,6 @@ public class MailConfig {
         sender.setPort(port);
 
         return sender;
-    }
-
-    @Bean
-    public MailService mailService(JavaMailSender mailSender) {
-        return new MailServiceImpl(mailSender);
     }
 
 }

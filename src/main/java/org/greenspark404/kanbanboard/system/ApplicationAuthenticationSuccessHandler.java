@@ -2,7 +2,6 @@ package org.greenspark404.kanbanboard.system;
 
 import org.greenspark404.kanbanboard.data.model.User;
 import org.greenspark404.kanbanboard.data.model.UserSettings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.web.servlet.LocaleResolver;
@@ -15,8 +14,11 @@ import java.util.Optional;
 
 public class ApplicationAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    private LocaleResolver localeResolver;
+    private final LocaleResolver localeResolver;
+
+    public ApplicationAuthenticationSuccessHandler(LocaleResolver localeResolver) {
+        this.localeResolver = localeResolver;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,

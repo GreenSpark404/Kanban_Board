@@ -4,9 +4,7 @@ import org.greenspark404.kanbanboard.data.model.User;
 import org.greenspark404.kanbanboard.mvc.RegistrationFormData;
 import org.greenspark404.kanbanboard.mvc.UserFormData;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
 
-@Service
 public interface UserService extends UserDetailsService {
 
     @Override

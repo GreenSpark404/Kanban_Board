@@ -1,8 +1,8 @@
 package org.greenspark404.kanbanboard.config;
 
 import org.greenspark404.kanbanboard.data.model.Role;
-import org.greenspark404.kanbanboard.system.ApplicationAuthenticationSuccessHandler;
 import org.greenspark404.kanbanboard.service.UserService;
+import org.greenspark404.kanbanboard.system.ApplicationAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import java.util.Locale;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private AuthenticationSuccessHandler successHandler;
+    private LocaleResolver localeResolver;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,8 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return new ApplicationAuthenticationSuccessHandler();
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.US);
+        return slr;
     }
 
     @Override
@@ -50,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .usernameParameter("login")
-                    .successHandler(successHandler)
+                    .successHandler(new ApplicationAuthenticationSuccessHandler(localeResolver))
                     .permitAll()
                 .and()
                     .logout()

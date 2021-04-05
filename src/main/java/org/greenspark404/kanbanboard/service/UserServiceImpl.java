@@ -8,8 +8,10 @@ import org.greenspark404.kanbanboard.mvc.RegistrationFormData;
 import org.greenspark404.kanbanboard.mvc.UserFormData;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

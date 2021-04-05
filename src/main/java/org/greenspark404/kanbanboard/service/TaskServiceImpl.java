@@ -7,6 +7,7 @@ import org.greenspark404.kanbanboard.data.model.User;
 import org.greenspark404.kanbanboard.mvc.TaskFormData;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;

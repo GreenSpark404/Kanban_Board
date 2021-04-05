@@ -3,7 +3,9 @@ package org.greenspark404.kanbanboard.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MailServiceImpl implements MailService {
 
     private final JavaMailSender mailSender;
