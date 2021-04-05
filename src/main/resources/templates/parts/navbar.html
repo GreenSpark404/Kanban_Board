@@ -1,41 +1,50 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light-md" style="background-color:#e3f2fd;">
+        <div class="container-fluid sm">
             <a class="navbar-brand" href="/">Kanban Board</a>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a role="button" class="btn btn-primary" th:href="@{/createTask}"
-                        th:text="#{navbar.navitem.createTaskButton}" />
-                </li>
-            </ul>
-            <ul class="nav navbar-nav pull-xs-right">
-                <li class="nav-item me-3">
-                    <form class="form-inline" th:action="@{/searchTasks}" method="post">
-                        <div class="input-group">
-                            <input class="form-control" type="text" th:name="pattern"
-                                th:placeholder="#{common.action.search}">
-                            <button class="btn btn btn-primary" type="submit" th:text="#{common.action.search}" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-itemme-3">
+                        <a role="button" class="btn btn-primary" th:href="@{/createTask}"
+                            th:text="#{navbar.navitem.createTaskButton}" />
+                    </li>
+                <li class="nav-item me-3" sec:authorize="hasAuthority('ADMIN')">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                                    th:text="#{navbar.navitem.adminMenu}"></button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" th:href="@{/usersList}" th:text="#{navbar.navitem.adminMenu.usersList}"></a>
+                                </li>
+                            </ul>
                         </div>
+                    </li>
+                </ul>
+                <form class="d-flex" th:action="@{/searchTasks}" method="post" />
+                <div class="input-group me-3">
+                    <input class="form-control" type="text" th:name="pattern" th:placeholder="#{common.action.search}">
+                    <button class="btn btn btn-primary" type="submit" th:text="#{common.action.search}" />
+                </div></form>
+                <button type="button" class="btn btn-outline-success dropdown-toggle" id="userMenuButton"
+                    data-bs-toggle="dropdown" th:text="${#httpServletRequest.remoteUser}" />
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a class="dropdown-item" th:text="#{user.action.edit}" th:href="@{/editUser}" />
+                    <hr class="dropdown-divider">
+                    <form th:action="@{/logout}" method="post">
+                        <a class="dropdown-item" href="#" onclick="parentNode.submit();"
+                            th:text="#{navbar.navitem.userButton.logout}" />
                     </form>
-                </li>
-                <li class="nav-item">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-outline-success dropdown-toggle" id="userMenuButton"
-                            data-bs-toggle="dropdown" th:text="${#httpServletRequest.remoteUser}" />
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" th:text="#{user.action.edit}" th:href="@{/editUser}" />
-                            <hr class="dropdown-divider">
-                            <form th:action="@{/logout}" method="post">
-                                <a class="dropdown-item" href="#" onclick="parentNode.submit();"
-                                    th:text="#{navbar.navitem.userButton.logout}" />
-                            </form>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </nav>
 </div>

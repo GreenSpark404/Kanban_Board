@@ -74,7 +74,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User loadUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Override
     public Iterable<User> getAvailableAssignees(User user) {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 

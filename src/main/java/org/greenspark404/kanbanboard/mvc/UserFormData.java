@@ -2,7 +2,9 @@ package org.greenspark404.kanbanboard.mvc;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class UserFormData implements UserForm {
 
@@ -25,6 +27,10 @@ public class UserFormData implements UserForm {
     private String email;
 
     private String emailPlaceholder;
+
+    private String loginPlaceholder;
+
+    private final Set<Locale> availableLocales = new HashSet<>();
 
     private Locale userLocale;
 
@@ -90,5 +96,17 @@ public class UserFormData implements UserForm {
 
     public void setUserLocale(Locale userLocale) {
         this.userLocale = userLocale;
+    }
+
+    public String getLoginPlaceholder() {
+        return loginPlaceholder;
+    }
+
+    public void setLoginPlaceholder(String loginPlaceholder) {
+        this.loginPlaceholder = loginPlaceholder;
+    }
+
+    public Set<Locale> getAvailableLocales() {
+        return availableLocales;
     }
 }

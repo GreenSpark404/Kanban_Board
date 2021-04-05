@@ -6,6 +6,7 @@ import org.greenspark404.kanbanboard.service.LocalizationService;
 import org.greenspark404.kanbanboard.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,10 @@ public class UserController {
 
     @ModelAttribute("userForm")
     public UserFormData userFormData() {
-        return new UserFormData();
+        UserFormData userFormData = new UserFormData();
+        userFormData.getAvailableLocales().addAll(
+                localizationService.getAvailableLocales());
+        return userFormData;
     }
 
     @InitBinder
@@ -44,26 +48,36 @@ public class UserController {
         binder.addValidators(userFormValidator);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/usersList")
+    public String getUsersList(@AuthenticationPrincipal User currentUser, Model model) {
+        Iterable<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
+        return "usersList";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/editUser/{id}")
+    public String prepareUserForm(@ModelAttribute("userForm") UserFormData userFormData,
+                                  @PathVariable("id") Long userId, Model model) {
+        User user = userService.loadUserById(userId);
+        prepareUserForm(userFormData, user);
+        model.addAttribute("userLogin", user.getLogin());
+        return "userEditor";
+    }
+
     @GetMapping("/editUser")
-    public String editUser(@ModelAttribute("userForm") UserFormData userFormData,
-                           @AuthenticationPrincipal User currentUser, Model model) {
-        userFormData.setFirstName(currentUser.getFirstName());
-        userFormData.setLastName(currentUser.getLastName());
-        userFormData.setEmailPlaceholder(currentUser.getEmail());
-
-        if (currentUser.getUserSettings() != null) {
-            userFormData.setUserLocale(currentUser.getUserSettings().getPreferredLocale());
-        }
-
+    public String editCurrentUser(@ModelAttribute("userForm") UserFormData userFormData,
+                                  @AuthenticationPrincipal User currentUser, Model model) {
+        prepareUserForm(userFormData, currentUser);
         model.addAttribute("userLogin", currentUser.getLogin());
-        model.addAttribute("availableLocales", localizationService.getAvailableLocales());
         return "userEditor";
     }
 
     @PostMapping("/editUser")
-    public String editUser(@Valid @ModelAttribute("userForm") UserFormData userFormData, BindingResult bindingResult,
-                           @AuthenticationPrincipal User currentUser,
-                           @RequestParam("userLogin") String userLogin, Model model) {
+    public String prepareUserForm(@Valid @ModelAttribute("userForm") UserFormData userFormData, BindingResult bindingResult,
+                                  @AuthenticationPrincipal User currentUser,
+                                  @RequestParam("userLogin") String userLogin, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("userLogin", userLogin);
             return "userEditor";
@@ -77,6 +91,17 @@ public class UserController {
             return "redirect:/";
         }
 
-        return "redirect:/editUser?success";
+        return String.format("redirect:/editUser/%d?success", user.getId());
+    }
+
+    private void prepareUserForm(UserFormData userFormData, User userToEdit) {
+        userFormData.setFirstName(userToEdit.getFirstName());
+        userFormData.setLastName(userToEdit.getLastName());
+        userFormData.setLoginPlaceholder(userToEdit.getLogin());
+        userFormData.setEmailPlaceholder(userToEdit.getEmail());
+
+        if (userToEdit.getUserSettings() != null) {
+            userFormData.setUserLocale(userToEdit.getUserSettings().getPreferredLocale());
+        }
     }
 }

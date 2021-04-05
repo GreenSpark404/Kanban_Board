@@ -1,30 +1,44 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 
-<div class="container-fluid p-4 board" th:fragment="board-cells-container">
-    <div class="row row-cols-3 boardHeader">
-        <div class="col boardColumn todo-header" th:text="#{board.cellsContainer.todo}"></div>
-        <div class="col boardColumn inProgress-header" th:text="#{board.cellsContainer.inProgress}"></div>
-        <div class="col boardColumn done-header" th:text="#{board.cellsContainer.done}"></div>
-    </div>
-    <div class="row row-cols-3 boardTaskList">
-        <div class="col boardColumn p-3" th:with="isNotEmpty = ${not #lists.isEmpty(todoTasks)}">
-            <th:block th:if="${isNotEmpty}" th:each="task : ${todoTasks}">
-                <div th:insert="parts/taskCard.html :: task-card" />
-            </th:block>
-            <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{board.taskList.emptyTaskList}" />
+<div id="board">
+    <div class="container-fluid p-4 board" th:fragment="board-cells-container">
+        <div class="row row-cols-3 boardHeader">
+            <div class="col boardColumn todo-header border-bottom-0 border border-3"
+                 th:text="#{board.cellsContainer.todo}"></div>
+            <div class="col boardColumn inProgress-header border-bottom-0 border-start-0 border border-3"
+                 th:text="#{board.cellsContainer.inProgress}"></div>
+            <div class="col boardColumn done-header border-bottom-0 border-start-0 border border-3"
+                 th:text="#{board.cellsContainer.done}"></div>
         </div>
-        <div class="col boardColumn p-3" th:with="isNotEmpty = ${not #lists.isEmpty(inProgressTasks)}">
-            <th:block th:if="${isNotEmpty}" th:each="task : ${inProgressTasks}">
-                <div th:insert="parts/taskCard.html :: task-card" />
-            </th:block>
-            <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{board.taskList.emptyTaskList}" />
-        </div>
-        <div class="col boardColumn p-3" th:with="isNotEmpty = ${not #lists.isEmpty(doneTasks)}">
-            <th:block th:if="${isNotEmpty}" th:each="task : ${doneTasks}">
-                <div th:insert="parts/taskCard.html :: task-card" />
-            </th:block>
-            <span class="mb-3" th:unless="${isNotEmpty}" th:text="#{board.taskList.emptyTaskList}" />
+        <div class="row row-cols-3 boardTaskList">
+            <div class="col boardColumn p-3 scroll border border-3" style="background-color: rgba(0, 206, 209, 0.2)"
+                 th:with="isNotEmpty = ${not #lists.isEmpty(todoTasks)}">
+                <th:block th:if="${isNotEmpty}" th:each="task : ${todoTasks}">
+                    <div th:insert="parts/taskCard.html :: task-card" />
+                </th:block>
+                <span class="mb-3" th:unless="${isNotEmpty}">
+                    <p class="text-center" th:text="#{board.taskList.emptyTaskList}"></p>
+                </span>
+            </div>
+            <div class="col boardColumn p-3 scroll border-start-0 border border-3" style="background-color: rgba(221, 160, 221, 0.2)"
+                 th:with="isNotEmpty = ${not #lists.isEmpty(inProgressTasks)}">
+                <th:block th:if="${isNotEmpty}" th:each="task : ${inProgressTasks}">
+                    <div th:insert="parts/taskCard.html :: task-card" />
+                </th:block>
+                <span class="mb-3" th:unless="${isNotEmpty}">
+                    <p class="text-center" th:text="#{board.taskList.emptyTaskList}"></p>
+                </span>
+            </div>
+            <div class="col boardColumn p-3 scroll border-start-0 border border-3" style="background-color: rgba(152, 251, 152, 0.2)"
+                 th:with="isNotEmpty = ${not #lists.isEmpty(doneTasks)}">
+                <th:block th:if="${isNotEmpty}" th:each="task : ${doneTasks}">
+                    <div th:insert="parts/taskCard.html :: task-card" />
+                </th:block>
+                <span class="mb-3" th:unless="${isNotEmpty}">
+                    <p class="text-center" th:text="#{board.taskList.emptyTaskList}"></p>
+                </span>
+            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <title>Kanban Board - User Editor</title>
@@ -13,21 +14,22 @@
         <div class="alert alert-info" th:if="${param.success}" th:text="#{common.action.savedSuccessfully}" />
         <div class="row">
             <form th:action="@{/editUser(userLogin=${userLogin})}" th:object="${userForm}" method="post">
-                <div class="mb-3 w-50" th:if="${canChangeLogin}">
+                <div class="mb-3">
+                    <label for="localeList" class="form-label" th:text="#{user.label.locale}" />
+                    <select class="form-select" id="localeList" th:field="*{userLocale}" style="width: 70px;">
+                        <option th:each="locale : *{availableLocales}" th:value="${locale}"
+                                th:selected="*{userLocale}" th:text="${locale}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3 w-50" sec:authorize="hasAuthority('ADMIN')">
                     <label for="login" class="form-label" th:text="#{user.label.login}" />
                     <input type="text" id="login" class="form-control" th:field="*{login}"
+                           th:placeholder="*{loginPlaceholder}"
                            th:classappend="${#fields.hasErrors('login')} ? is-invalid">
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('login')}">
                         <p th:errors="*{login}"></p>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="localeList" class="form-label" th:text="#{user.label.locale}" />
-                    <select class="form-select" id="localeList" th:field="*{userLocale}" style="width: 70px;">
-                        <option th:each="locale : ${availableLocales}" th:value="${locale}"
-                                th:selected="*{userLocale}" th:text="${locale}">
-                        </option>
-                    </select>
                 </div>
                 <div class="mb-3 w-50">
                     <label for="firstName" class="form-label" th:text="#{user.label.firstName}" />
@@ -45,7 +47,7 @@
                         <p th:errors="*{lastName}"></p>
                     </div>
                 </div>
-                <div class="mb-3 w-50">
+                <div class="mb-3 w-50" sec:authorize="hasAuthority('ADMIN')">
                     <label for="email" class="form-label" th:text="#{user.label.email}" />
                     <input type="text" id="email" class="form-control" th:field="*{email}"
                         th:placeholder="*{emailPlaceholder}"

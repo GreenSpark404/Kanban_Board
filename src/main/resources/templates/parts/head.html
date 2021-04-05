@@ -10,12 +10,45 @@
       <!-- Bootstrap CSS -->
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-      <!--Project CSS-->
-      <link th:href="@{/css/board.css}" rel="stylesheet" />
       <!--Bootstrap JS-->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
             crossorigin="anonymous"></script>
+      <style>
+            .boardColumn {
+                  border: 1px inset black;
+            }
+
+            .boardHeader {
+                  font-size: 1.5em;
+                  font-weight: 500;
+                  text-align: center;
+                  height: 3em;
+                  line-height: 3em;
+            }
+
+            .todo-header {
+                  background-color: #00CED1;
+            }
+
+            .inProgress-header {
+                  background-color: #DDA0DD;
+            }
+
+            .done-header {
+                  background-color: #98FB98;
+            }
+
+            .scroll {
+                  overflow-Y: auto;
+                  overflow-X: hidden;
+                  height: 80vh;
+            }
+
+            ::-webkit-scrollbar {
+                  width: 0;
+            }
+      </style>
 </head>
 
 </html>
