@@ -2,7 +2,7 @@ package org.greenspark404.kanbanboard.config;
 
 import org.greenspark404.kanbanboard.data.model.Role;
 import org.greenspark404.kanbanboard.service.UserService;
-import org.greenspark404.kanbanboard.system.ApplicationAuthenticationSuccessHandler;
+import org.greenspark404.kanbanboard.system.AuthenticationSuccessHandlerWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
@@ -56,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     .loginPage("/login")
                     .usernameParameter("login")
-                    .successHandler(new ApplicationAuthenticationSuccessHandler(localeResolver))
+                    .successHandler(new AuthenticationSuccessHandlerWrapper(localeResolver))
                     .permitAll()
                 .and()
                     .logout()
